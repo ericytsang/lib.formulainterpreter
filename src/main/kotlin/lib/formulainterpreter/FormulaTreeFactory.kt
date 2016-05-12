@@ -127,7 +127,15 @@ class FormulaTreeFactory<T>(val tokenInterpreter:TokenInterpreter,val operandFac
 
         while (operatorStack.isNotEmpty())
         {
-            outputQueue.add(operatorStack.pop())
+            val word = operatorStack.pop()
+            if (tokenInterpreter.parse(word).type == Symbol.Type.OPENING_PARENTHESIS)
+            {
+                throw IllegalArgumentException("there is an uneven amount of parenthesis...")
+            }
+            else
+            {
+                outputQueue.add(word)
+            }
         }
 
         return outputQueue
@@ -173,6 +181,8 @@ class FormulaTreeFactory<T>(val tokenInterpreter:TokenInterpreter,val operandFac
             Unit
         }
 
-        return operandStack.pop()
+        val result = operandStack.pop()
+        if (operandStack.isNotEmpty()) throw IllegalArgumentException("too many operands for operators")
+        return result
     }
 }
