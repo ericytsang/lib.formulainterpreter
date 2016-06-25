@@ -1,4 +1,4 @@
-package lib.formulainterpreter
+package com.github.ericytsang.lib.formulainterpreter
 
 import java.util.ArrayList
 import java.util.EmptyStackException

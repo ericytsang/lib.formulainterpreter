@@ -1,6 +1,5 @@
-package lib.formulainterpreter
+package com.github.ericytsang.lib.formulainterpreter
 
-import lib.formulainterpreter.FormulaTreeFactory.Symbol.*
 import org.junit.Test
 
 /**
@@ -46,10 +45,10 @@ val tokenInterpreter = object:FormulaTreeFactory.TokenInterpreter
 {
     override fun parse(word:String):FormulaTreeFactory.Symbol = when (word)
     {
-        "+","-" -> FormulaTreeFactory.Symbol(Type.OPERATOR,2,1)
-        "*","/" -> FormulaTreeFactory.Symbol(Type.OPERATOR,2,2)
-        "(" -> FormulaTreeFactory.Symbol(Type.OPENING_PARENTHESIS,0,0)
-        ")" -> FormulaTreeFactory.Symbol(Type.CLOSING_PARENTHESIS,0,0)
-        else -> FormulaTreeFactory.Symbol(Type.OPERAND,0,0)
+        "+","-" -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERATOR,2,1)
+        "*","/" -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERATOR,2,2)
+        "(" -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPENING_PARENTHESIS,0,0)
+        ")" -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.CLOSING_PARENTHESIS,0,0)
+        else -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Symbol.Type.OPERAND,0,0)
     }
 }
