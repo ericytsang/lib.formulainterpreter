@@ -101,7 +101,7 @@ public class FormulaTreeFactory<FormulaTree>
          */
         private final Integer precedence;
 
-        Symbol(Type type,Integer arity,Integer precedence)
+        public Symbol(Type type,Integer arity,Integer precedence)
         {
             this.type = type;
             this.arity = arity;
