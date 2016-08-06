@@ -31,11 +31,11 @@ class CompositeComposite(val string:String,val leftChild:Composite,val rightChil
 
 val operandFactory = object:FormulaTreeFactory.OperandFactory<Composite>
 {
-    override fun parse(word:String):Composite
+    override fun makeOperand(word:String):Composite
     {
         return AtomicComposite(word)
     }
-    override fun parse(word:String,operands:List<Composite>):Composite
+    override fun makeOperator(word:String,operands:List<Composite>):Composite
     {
         return CompositeComposite(word,operands.first(),operands.last())
     }
@@ -43,7 +43,7 @@ val operandFactory = object:FormulaTreeFactory.OperandFactory<Composite>
 
 val tokenInterpreter = object:FormulaTreeFactory.TokenInterpreter
 {
-    override fun parse(word:String):FormulaTreeFactory.Symbol = when (word)
+    override fun parseToken(word:String):FormulaTreeFactory.Symbol = when (word)
     {
         "+","-" -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Type.OPERATOR,2,1)
         "*","/" -> FormulaTreeFactory.Symbol(FormulaTreeFactory.Type.OPERATOR,2,2)

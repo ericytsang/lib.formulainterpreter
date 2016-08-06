@@ -27,7 +27,7 @@ public class FormulaTreeFactory<FormulaTree>
 
         for (String word : inputTokens)
         {
-            Symbol symbol = tokenInterpreter.parse(word);
+            Symbol symbol = tokenInterpreter.parseToken(word);
 
             try
             {
@@ -39,10 +39,10 @@ public class FormulaTreeFactory<FormulaTree>
                         {
                             operands.add(0,operandStack.pop());
                         }
-                        operandStack.push(operandFactory.parse(word,operands));
+                        operandStack.push(operandFactory.makeOperator(word,operands));
                         break;
                     case OPERAND:
-                        operandStack.push(operandFactory.parse(word));
+                        operandStack.push(operandFactory.makeOperand(word));
                         break;
                     case OPENING_PARENTHESIS:
                     case CLOSING_PARENTHESIS:
@@ -65,13 +65,13 @@ public class FormulaTreeFactory<FormulaTree>
 
     public interface TokenInterpreter
     {
-        Symbol parse(String word);
+        Symbol parseToken(String word);
     }
 
     public interface OperandFactory<FormulaTree>
     {
-        FormulaTree parse(String word);
-        FormulaTree parse(String word,List<FormulaTree> operands);
+        FormulaTree makeOperand(String word);
+        FormulaTree makeOperator(String word,List<FormulaTree> operands);
     }
 
     public static class Symbol
@@ -136,11 +136,11 @@ public class FormulaTreeFactory<FormulaTree>
 
         for (String word : inputTokens)
         {
-            Symbol operand = tokenInterpreter.parse(word);
+            Symbol operand = tokenInterpreter.parseToken(word);
             switch(operand.type)
             {
                 case OPERATOR:
-                    while (!operatorStack.isEmpty() && operand.precedence <= tokenInterpreter.parse(operatorStack.peek()).precedence)
+                    while (!operatorStack.isEmpty() && operand.precedence <= tokenInterpreter.parseToken(operatorStack.peek()).precedence)
                     {
                         outputQueue.add(operatorStack.pop());
                     }
@@ -171,7 +171,7 @@ public class FormulaTreeFactory<FormulaTree>
 
                         // push all popped words into the output queue unless it is
                         // the matching opening parenthesis
-                        if (tokenInterpreter.parse(poppedWord).type == Type.OPENING_PARENTHESIS)
+                        if (tokenInterpreter.parseToken(poppedWord).type == Type.OPENING_PARENTHESIS)
                         {
                             break;
                         }
@@ -187,7 +187,7 @@ public class FormulaTreeFactory<FormulaTree>
         while (!operatorStack.isEmpty())
         {
             String word = operatorStack.pop();
-            if (tokenInterpreter.parse(word).type == Type.OPENING_PARENTHESIS)
+            if (tokenInterpreter.parseToken(word).type == Type.OPENING_PARENTHESIS)
             {
                 throw new IllegalArgumentException("there is an uneven amount of parenthesis...");
             }
